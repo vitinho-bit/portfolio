@@ -1,146 +1,238 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Portfólio - Desenvolvedor</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Fonte moderna -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio | Desenvolvedor Java & JavaScript</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    body {
-      background: #0f0f1a;
-      color: white;
-      overflow-x: hidden;
-    }
+<style>
+:root{
+  --primary:#00f5ff;
+  --secondary:#ff00c8;
+  --bg-dark:#0a0a14;
+  --glass: rgba(255,255,255,0.06);
+}
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
 
-    header {
-      text-align: center;
-      padding: 100px 20px;
-    }
+body{
+  background: radial-gradient(circle at top, #111122, #05050d);
+  font-family:'Poppins',sans-serif;
+  color:white;
+  overflow-x:hidden;
+}
 
-    header h1 {
-      font-size: 3rem;
-      background: linear-gradient(45deg, #00f5ff, #ff00c8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
 
-    header p {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      opacity: 0.8;
-    }
+nav{
+  position:fixed;
+  width:100%;
+  top:0;
+  padding:20px 10%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,0.3);
+  backdrop-filter:blur(10px);
+  z-index:10;
+}
 
-    section {
-      padding: 80px 10%;
-    }
+nav h2{
+  font-family:'Orbitron',sans-serif;
+  color:var(--primary);
+}
 
-    .skills {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
+nav a{
+  color:white;
+  text-decoration:none;
+  margin-left:30px;
+  transition:0.3s;
+}
 
-    .skill-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 15px;
-      width: 250px;
-      text-align: center;
-      transition: 0.4s;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
+nav a:hover{
+  color:var(--secondary);
+}
 
-    .skill-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 25px #00f5ff;
-    }
+header{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:0 20px;
+}
 
-    .skill-card h3 {
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-      color: #00f5ff;
-    }
+header h1{
+  font-size:4rem;
+  font-family:'Orbitron',sans-serif;
+  background:linear-gradient(45deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
+header p{
+  margin-top:20px;
+  font-size:1.2rem;
+  opacity:0.8;
+}
 
-    .project-card {
-      background: rgba(255,255,255,0.05);
-      padding: 25px;
-      border-radius: 15px;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: 0.3s;
-    }
+.btn{
+  margin-top:40px;
+  padding:12px 30px;
+  border-radius:30px;
+  border:none;
+  background:linear-gradient(45deg,var(--primary),var(--secondary));
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
 
-    .project-card:hover {
-      box-shadow: 0 0 20px #ff00c8;
-      transform: scale(1.05);
-    }
+.btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 25px var(--secondary);
+}
 
-    footer {
-      text-align: center;
-      padding: 40px;
-      opacity: 0.6;
-    }
+section{
+  padding:100px 10%;
+}
 
-  </style>
+.section-title{
+  text-align:center;
+  font-size:2.5rem;
+  margin-bottom:60px;
+  font-family:'Orbitron',sans-serif;
+  color:var(--primary);
+}
+
+.skills, .projects{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:40px;
+}
+
+.card{
+  background:var(--glass);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:40px;
+  border-radius:20px;
+  transition:0.4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  width:200%;
+  height:200%;
+  background:linear-gradient(45deg,transparent,var(--primary),transparent);
+  transform:rotate(45deg);
+  top:-100%;
+  left:-100%;
+  transition:0.6s;
+}
+
+.card:hover::before{
+  top:100%;
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 30px var(--primary);
+}
+
+.card h3{
+  margin-bottom:20px;
+  color:var(--secondary);
+}
+
+.progress{
+  height:8px;
+  background:#222;
+  border-radius:10px;
+  margin-top:10px;
+  overflow:hidden;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,var(--primary),var(--secondary));
+}
+
+footer{
+  text-align:center;
+  padding:40px;
+  opacity:0.6;
+}
+
+@media(max-width:768px){
+  header h1{
+    font-size:2.5rem;
+  }
+}
+</style>
 </head>
 <body>
 
+<nav>
+  <h2>DEV</h2>
+  <div>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projetos</a>
+  </div>
+</nav>
+
 <header>
-  <h1>Seu Nome Aqui</h1>
-  <p>Desenvolvedor especializado em Java e JavaScript</p>
+  <h1>Seu Nome</h1>
+  <p>Desenvolvedor Especialista em Java & JavaScript</p>
+  <button class="btn" onclick="document.getElementById('projects').scrollIntoView()">Ver Projetos</button>
 </header>
 
-<section>
-  <h2 style="text-align:center; margin-bottom:40px;">Minhas Habilidades</h2>
+<section id="skills">
+  <h2 class="section-title">Minhas Habilidades</h2>
   <div class="skills">
-    <div class="skill-card">
+    <div class="card">
       <h3>JAVA</h3>
-      <p>Desenvolvimento Backend, APIs REST, Spring Boot, sistemas escaláveis e robustos.</p>
+      <p>Backend, APIs REST, Spring Boot, microsserviços e sistemas escaláveis.</p>
+      <div class="progress"><span style="width:90%"></span></div>
     </div>
-    <div class="skill-card">
+    <div class="card">
       <h3>JAVASCRIPT</h3>
-      <p>Frontend moderno, aplicações interativas, animações, Node.js e projetos full stack.</p>
+      <p>Frontend moderno, animações, Node.js, aplicações interativas.</p>
+      <div class="progress"><span style="width:85%"></span></div>
     </div>
   </div>
 </section>
 
-<section>
-  <h2 style="text-align:center;">Meus Projetos</h2>
+<section id="projects">
+  <h2 class="section-title">Projetos</h2>
   <div class="projects">
-    <div class="project-card">
+    <div class="card">
       <h3>Projeto 1</h3>
       <p>Descrição do seu projeto aqui.</p>
     </div>
-    <div class="project-card">
+    <div class="card">
       <h3>Projeto 2</h3>
       <p>Descrição do seu projeto aqui.</p>
     </div>
-    <div class="project-card">
+    <div class="card">
       <h3>Projeto 3</h3>
       <p>Descrição do seu projeto aqui.</p>
     </div>
@@ -148,69 +240,60 @@
 </section>
 
 <footer>
-  © 2026 - Seu Nome | Desenvolvedor Java & JavaScript
+  © 2026 - Seu Nome | Java & JavaScript Developer
 </footer>
 
-<!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+document.body.appendChild(renderer.domElement);
+camera.position.z=5;
 
-  camera.position.z = 5;
+let particles=[];
+const geometry=new THREE.SphereGeometry(0.04,8,8);
 
-  const particles = [];
-  const geometry = new THREE.SphereGeometry(0.03, 8, 8);
+function createFirework(){
+  const color=new THREE.Color(Math.random(),Math.random(),Math.random());
+  for(let i=0;i<120;i++){
+    const material=new THREE.MeshBasicMaterial({color:color});
+    const particle=new THREE.Mesh(geometry,material);
+    particle.position.set(0,0,0);
+    particle.velocity=new THREE.Vector3(
+      (Math.random()-0.5)*0.25,
+      (Math.random()-0.5)*0.25,
+      (Math.random()-0.5)*0.25
+    );
+    scene.add(particle);
+    particles.push(particle);
+  }
+}
 
-  function createFirework() {
-    const color = new THREE.Color(Math.random(), Math.random(), Math.random());
-    for(let i = 0; i < 100; i++) {
-      const material = new THREE.MeshBasicMaterial({ color: color });
-      const particle = new THREE.Mesh(geometry, material);
-
-      particle.position.set(0, 0, 0);
-
-      particle.velocity = new THREE.Vector3(
-        (Math.random() - 0.5) * 0.2,
-        (Math.random() - 0.5) * 0.2,
-        (Math.random() - 0.5) * 0.2
-      );
-
-      scene.add(particle);
-      particles.push(particle);
+function animate(){
+  requestAnimationFrame(animate);
+  particles.forEach((p,i)=>{
+    p.position.add(p.velocity);
+    p.material.opacity=0.8;
+    p.material.transparent=true;
+    if(p.position.length()>4){
+      scene.remove(p);
+      particles.splice(i,1);
     }
-  }
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    particles.forEach((p, index) => {
-      p.position.add(p.velocity);
-      p.material.opacity = 0.8;
-      p.material.transparent = true;
-
-      if (p.position.length() > 3) {
-        scene.remove(p);
-        particles.splice(index, 1);
-      }
-    });
-
-    renderer.render(scene, camera);
-  }
-
-  setInterval(createFirework, 1500);
-
-  animate();
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
   });
+  renderer.render(scene,camera);
+}
+
+setInterval(createFirework,1800);
+animate();
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
 </script>
 
 </body>

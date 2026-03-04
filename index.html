@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Game | Three.js</title>
+    <title>Dev Portfolio Game | Java • Spring • JS</title>
     <style>
         body {
             margin: 0;
@@ -18,7 +18,6 @@
             background: rgba(0,0,0,0.7);
             padding: 12px 24px;
             border-radius: 40px;
-            pointer-events: none;
             z-index: 10;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.2);
@@ -76,13 +75,33 @@
             border-radius: 20px;
             border-left: 5px solid #ffaa00;
             backdrop-filter: blur(5px);
-            max-width: 300px;
+            max-width: 320px;
             pointer-events: none;
             z-index: 10;
+        }
+        #projects-panel {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border-right: 5px solid #44aaff;
+            backdrop-filter: blur(5px);
+            max-width: 280px;
+            pointer-events: auto;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         h2 {
             margin: 0 0 8px 0;
             color: #ffaa00;
+        }
+        h3 {
+            margin: 10px 0 5px 0;
+            color: #44aaff;
+            font-size: 16px;
         }
         p {
             margin: 5px 0;
@@ -98,24 +117,65 @@
         a:hover {
             text-decoration: underline;
         }
+        .project-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-left: 3px solid #44aaff;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: #44aaff33;
+            color: #aaddff;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 2px;
+            border: 1px solid #44aaff66;
+        }
     </style>
 </head>
 <body>
-    <div id="info">🚀 Portfólio Interativo - Three.js Game</div>
-    <div id="score">🏆 <span id="scoreValue">0</span></div>
+    <div id="info">👨‍💻 Dev Portfolio - Three.js Game</div>
+    <div id="score">🏆 <span id="scoreValue">0</span> / 60</div>
+    
     <div id="game-overlay">
-        <h2>📁 Projetos / Habilidades</h2>
-        <p>1️⃣ <strong>Three.js Expert</strong> - 3D Web Experiences</p>
-        <p>2️⃣ <strong>React Developer</strong> - SPAs Modernas</p>
-        <p>3️⃣ <strong>Node.js Backend</strong> - APIs Escaláveis</p>
-        <p>4️⃣ <strong>UI/UX Design</strong> - Figma & Prototipagem</p>
-        <p>5️⃣ <strong>Game Dev</strong> - Three.js / Unity</p>
+        <h2>📌 Minhas Competências</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px;">
+            <span class="skill-tag">☕ Java</span>
+            <span class="skill-tag">📜 JavaScript</span>
+            <span class="skill-tag">📦 Maven</span>
+            <span class="skill-tag">🍃 Spring Boot</span>
+            <span class="skill-tag">⚡ Three.js</span>
+            <span class="skill-tag">🗄️ SQL</span>
+        </div>
         <hr style="border-color: #444; margin: 10px 0;">
-        <p style="text-align: center;">👉 <a href="#">github.com/seuportfolio</a> | <a href="#">linkedin.com/in/voce</a></p>
+        <p style="text-align: center;">👉 <a href="#">github.com/seu-dev</a> | <a href="#">linkedin.com/in/dev</a></p>
     </div>
+
+    <div id="projects-panel">
+        <h3>📂 PROJETOS PESSOAIS</h3>
+        <div class="project-item">
+            <strong>🍃 Spring E-commerce</strong> - API REST com JPA, Security, Maven
+        </div>
+        <div class="project-item">
+            <strong>☕ Java Desktop App</strong> - Sistema de estoque com JavaFX e Maven
+        </div>
+        <div class="project-item">
+            <strong>📜 Three.js Portfolio</strong> - Este jogo 3D interativo
+        </div>
+        <div class="project-item">
+            <strong>⚡ Spring Boot + React</strong> - Aplicação fullstack com autenticação JWT
+        </div>
+        <p style="font-size: 12px; text-align: center; opacity: 0.7; margin-top: 10px;">
+            💡 Clique nos cubos para coletar skills e desbloquear projetos
+        </p>
+    </div>
+
     <div id="controls">
         <span><span class="key">W A S D</span> mover</span>
-        <span><span class="key">🖱️ Clique</span> coletar cubos</span>
+        <span><span class="key">🖱️ Clique</span> coletar skill</span>
         <span><span class="key">R</span> resetar</span>
     </div>
 
@@ -135,8 +195,9 @@
 
         // --- Cena, câmera, renderizador ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x111122); // azul escuro noturno
-        // Adicionar estrelas de fundo
+        scene.background = new THREE.Color(0x0d1117); // GitHub dark
+        
+        // Estrelas / Partículas de fundo
         const starsGeometry = new THREE.BufferGeometry();
         const starsCount = 2000;
         const starsPositions = new Float32Array(starsCount * 3);
@@ -146,28 +207,26 @@
             starsPositions[i+2] = (Math.random() - 0.5) * 200;
         }
         starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
-        const starsMaterial = new THREE.PointsMaterial({color: 0xffffff, size: 0.15, transparent: true});
+        const starsMaterial = new THREE.PointsMaterial({color: 0x88aaff, size: 0.15, transparent: true});
         const stars = new THREE.Points(starsGeometry, starsMaterial);
         scene.add(stars);
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(10, 6, 15);
+        camera.position.set(8, 5, 12);
         camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMap.enabled = true; // ativar sombras para efeito
+        renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
-        // --- Iluminação ---
-        // Luz ambiente
+        // --- Iluminação temática ---
         const ambientLight = new THREE.AmbientLight(0x404060);
         scene.add(ambientLight);
 
-        // Luz principal direcional (simula sol)
-        const dirLight = new THREE.DirectionalLight(0xffeedd, 1);
+        const dirLight = new THREE.DirectionalLight(0xffeedd, 1.2);
         dirLight.position.set(5, 10, 7);
         dirLight.castShadow = true;
         dirLight.receiveShadow = true;
@@ -178,78 +237,104 @@
         dirLight.shadow.camera.right = d;
         dirLight.shadow.camera.top = d;
         dirLight.shadow.camera.bottom = -d;
-        dirLight.shadow.camera.near = 1;
-        dirLight.shadow.camera.far = 25;
         scene.add(dirLight);
 
-        // Luz de preenchimento colorida
-        const fillLight = new THREE.PointLight(0x4466ff, 0.5);
-        fillLight.position.set(-3, 2, 4);
+        // Luz colorida para efeito
+        const fillLight = new THREE.PointLight(0x44aaff, 0.6);
+        fillLight.position.set(-3, 3, 4);
         scene.add(fillLight);
-
-        // Luz de fundo
+        
         const backLight = new THREE.PointLight(0xffaa44, 0.3);
-        backLight.position.set(0, 2, -8);
+        backLight.position.set(2, 2, -8);
         scene.add(backLight);
 
-        // --- Chão com grade e reflexo ---
-        const gridHelper = new THREE.GridHelper(30, 20, 0xffaa00, 0x444466);
+        // --- Chão com grade (estilo "dev") ---
+        const gridHelper = new THREE.GridHelper(30, 20, 0x44aaff, 0x2a2a4a);
         gridHelper.position.y = -0.01;
         scene.add(gridHelper);
 
-        // Plano semi-transparente para reflexo
+        // Plano refletivo
         const planeGeometry = new THREE.CircleGeometry(15, 32);
-        const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.25, side: THREE.DoubleSide });
+        const planeMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x0a0c10, 
+            roughness: 0.3, 
+            metalness: 0.7, 
+            transparent: true, 
+            opacity: 0.3, 
+            side: THREE.DoubleSide 
+        });
         const plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.rotation.x = -Math.PI / 2;
         plane.position.y = 0;
         plane.receiveShadow = true;
         scene.add(plane);
 
-        // --- Cubos representando projetos/habilidades (itens colecionáveis) ---
+        // --- Cubos representando SKILLS (Java, JS, Maven, Spring Boot) + extras ---
         const cubes = [];
-        const colors = [0xff5733, 0x33ff57, 0x3357ff, 0xff33f1, 0xffd733, 0x33fff5];
+        // Cores: Java (vermelho), JS (amarelo), Maven (laranja), Spring (verde), extra (azul), extra2 (roxo)
+        const colors = [0xb0723c, 0xf7df1e, 0xff7f2a, 0x6db33f, 0x44aaff, 0xaa44ff];
+        const skills = ['Java', 'JavaScript', 'Maven', 'Spring Boot', 'Three.js', 'SQL'];
+        
         const positions = [
-            { x: -4, y: 1, z: 2 },  // Three.js
-            { x: 3, y: 1, z: -3 },  // React
-            { x: -2, y: 1, z: -4 }, // Node
-            { x: 5, y: 1, z: 4 },   // UI/UX
-            { x: -5, y: 1, z: -2 }, // Game Dev
-            { x: 0, y: 1, z: 5 }    // Bônus
+            { x: -4, y: 1, z: 2 },  // Java
+            { x: 3, y: 1, z: -3 },  // JS
+            { x: -2, y: 1, z: -4 }, // Maven
+            { x: 5, y: 1, z: 4 },   // Spring
+            { x: -5, y: 1, z: -2 }, // Three.js
+            { x: 0, y: 1, z: 5 }    // SQL
         ];
+
+        // Array para armazenar textos flutuantes (não implementado diretamente, mas via DOM)
+        const skillLabels = [];
 
         positions.forEach((pos, index) => {
             const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
             const material = new THREE.MeshStandardMaterial({ 
                 color: colors[index % colors.length],
-                emissive: new THREE.Color(colors[index % colors.length]).multiplyScalar(0.3),
+                emissive: new THREE.Color(colors[index % colors.length]).multiplyScalar(0.2),
                 roughness: 0.2,
-                metalness: 0.1
+                metalness: 0.3,
+                emissiveIntensity: 0.5
             });
             const cube = new THREE.Mesh(geometry, material);
             cube.castShadow = true;
             cube.receiveShadow = true;
             cube.position.set(pos.x, pos.y, pos.z);
             
-            // Adicionar um pequeno cubo interior para efeito "vidro"
+            // Adicionar texto como "label" usando um sprite ou pequeno cubo com cor? Vamos usar um cubo interno
             const innerGeo = new THREE.BoxGeometry(0.6, 0.6, 0.6);
-            const innerMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x222222 });
+            const innerMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x333333 });
             const innerCube = new THREE.Mesh(innerGeo, innerMat);
             innerCube.castShadow = true;
             innerCube.receiveShadow = true;
             cube.add(innerCube);
             
+            // Adicionar partículas orbitais
+            const particleCount = 10;
+            const particleGeo = new THREE.BufferGeometry();
+            const particlePositions = new Float32Array(particleCount * 3);
+            for (let j = 0; j < particleCount; j++) {
+                const angle = (j / particleCount) * Math.PI * 2;
+                particlePositions[j*3] = Math.cos(angle) * 1.3;
+                particlePositions[j*3+1] = Math.sin(angle) * 1.3;
+                particlePositions[j*3+2] = 0;
+            }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            const particleMat = new THREE.PointsMaterial({ color: colors[index % colors.length], size: 0.1 });
+            const particles = new THREE.Points(particleGeo, particleMat);
+            cube.add(particles);
+            
             scene.add(cube);
             cubes.push(cube);
         });
 
-        // --- Jogador (uma esfera flutuante) ---
+        // --- Jogador (esfera com anel) ---
         const playerGeometry = new THREE.SphereGeometry(0.8, 32, 32);
         const playerMaterial = new THREE.MeshStandardMaterial({ 
             color: 0x44aaff,
-            emissive: 0x224466,
+            emissive: 0x114466,
             roughness: 0.2,
-            metalness: 0.3
+            metalness: 0.4
         });
         const player = new THREE.Mesh(playerGeometry, playerMaterial);
         player.castShadow = true;
@@ -257,49 +342,29 @@
         player.position.set(0, 0.8, 0);
         scene.add(player);
 
-        // Adicionar um anel ao redor do player
+        // Anel do jogador
         const ringGeometry = new THREE.TorusGeometry(1.0, 0.05, 16, 100);
         const ringMaterial = new THREE.MeshStandardMaterial({ color: 0xffaa00, emissive: 0x442200 });
         const ring = new THREE.Mesh(ringGeometry, ringMaterial);
         ring.rotation.x = Math.PI / 2;
-        ring.rotation.z = Date.now() * 0.001;
         player.add(ring);
 
-        // --- Efeitos decorativos: partículas ao redor dos cubos ---
-        const particleGroups = [];
-        cubes.forEach((cube, i) => {
-            const particleCount = 8;
-            const particleGeo = new THREE.BufferGeometry();
-            const particlePositions = new Float32Array(particleCount * 3);
-            for (let j = 0; j < particleCount; j++) {
-                const angle = (j / particleCount) * Math.PI * 2;
-                particlePositions[j*3] = Math.cos(angle) * 1.2;
-                particlePositions[j*3+1] = Math.sin(angle) * 1.2;
-                particlePositions[j*3+2] = 0;
-            }
-            particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-            const particleMat = new THREE.PointsMaterial({ color: colors[i % colors.length], size: 0.1 });
-            const particles = new THREE.Points(particleGeo, particleMat);
-            cube.add(particles);
-            particleGroups.push(particles);
-        });
-
-        // --- Controles e lógica do jogo ---
+        // --- Controles e lógica ---
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
-        controls.maxPolarAngle = Math.PI / 2.2; // limitar para não ir abaixo do chão
-        controls.minDistance = 5;
-        controls.maxDistance = 30;
+        controls.maxPolarAngle = Math.PI / 2.2;
+        controls.minDistance = 4;
+        controls.maxDistance = 25;
         controls.target.copy(player.position);
 
-        // Variáveis de movimento
         const keyState = { w: false, a: false, s: false, d: false };
         const moveSpeed = 0.15;
         let score = 0;
+        const maxScore = 60;
         const scoreElement = document.getElementById('scoreValue');
 
-        // Event listeners para teclado
+        // Event listeners
         window.addEventListener('keydown', (e) => {
             switch(e.code) {
                 case 'KeyW': keyState.w = true; e.preventDefault(); break;
@@ -318,22 +383,18 @@
             }
         });
 
-        // Clique para coletar cubos (raycaster)
+        // Raycaster para clique
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
         renderer.domElement.addEventListener('click', (event) => {
-            // Calcular posição do mouse normalizada
             mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
             mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
-
-            // Verificar interseção com os cubos
             const intersects = raycaster.intersectObjects(cubes);
             
             if (intersects.length > 0) {
                 const hitCube = intersects[0].object;
-                // Remover o cubo da cena e da lista
                 scene.remove(hitCube);
                 const index = cubes.indexOf(hitCube);
                 if (index > -1) {
@@ -341,13 +402,18 @@
                     score += 10;
                     scoreElement.textContent = score;
                     
-                    // Feedback visual: pequena explosão de partículas
+                    // Feedback visual
                     createExplosion(hitCube.position.clone());
+                    
+                    // Atualizar painel de projetos quando coletar (opcional)
+                    if (score === 60) {
+                        alert('Parabéns! Você coletou todas as skills! Confira os projetos no painel.');
+                    }
                 }
             }
         });
 
-        // Função para criar mini explosão
+        // Explosão de partículas
         function createExplosion(position) {
             const particleCount = 20;
             const particleGeo = new THREE.BufferGeometry();
@@ -368,23 +434,21 @@
             particles.position.copy(position);
             scene.add(particles);
             
-            // Remover após 1 segundo
             setTimeout(() => {
                 scene.remove(particles);
-            }, 1000);
+            }, 800);
         }
 
         // Resetar jogo
         function resetGame() {
-            // Recriar cubos se foram coletados
             if (cubes.length === 0) {
                 positions.forEach((pos, index) => {
                     const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
                     const material = new THREE.MeshStandardMaterial({ 
                         color: colors[index % colors.length],
-                        emissive: new THREE.Color(colors[index % colors.length]).multiplyScalar(0.3),
+                        emissive: new THREE.Color(colors[index % colors.length]).multiplyScalar(0.2),
                         roughness: 0.2,
-                        metalness: 0.1
+                        metalness: 0.3
                     });
                     const cube = new THREE.Mesh(geometry, material);
                     cube.castShadow = true;
@@ -392,11 +456,24 @@
                     cube.position.set(pos.x, pos.y, pos.z);
                     
                     const innerGeo = new THREE.BoxGeometry(0.6, 0.6, 0.6);
-                    const innerMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x222222 });
+                    const innerMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x333333 });
                     const innerCube = new THREE.Mesh(innerGeo, innerMat);
-                    innerCube.castShadow = true;
-                    innerCube.receiveShadow = true;
                     cube.add(innerCube);
+                    
+                    // Readicionar partículas
+                    const particleCount = 10;
+                    const particleGeo = new THREE.BufferGeometry();
+                    const particlePositions = new Float32Array(particleCount * 3);
+                    for (let j = 0; j < particleCount; j++) {
+                        const angle = (j / particleCount) * Math.PI * 2;
+                        particlePositions[j*3] = Math.cos(angle) * 1.3;
+                        particlePositions[j*3+1] = Math.sin(angle) * 1.3;
+                        particlePositions[j*3+2] = 0;
+                    }
+                    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+                    const particleMat = new THREE.PointsMaterial({ color: colors[index % colors.length], size: 0.1 });
+                    const particles = new THREE.Points(particleGeo, particleMat);
+                    cube.add(particles);
                     
                     scene.add(cube);
                     cubes.push(cube);
@@ -406,11 +483,11 @@
             }
         }
 
-        // --- Animações e loop ---
+        // Animação
         function animate() {
             requestAnimationFrame(animate);
 
-            // Movimento do jogador com WASD (em relação à câmera)
+            // Movimento WASD
             if (keyState.w || keyState.s || keyState.a || keyState.d) {
                 const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
                 forward.y = 0;
@@ -429,37 +506,31 @@
                 moveDelta.normalize().multiplyScalar(moveSpeed);
                 player.position.add(moveDelta);
                 
-                // Manter dentro dos limites do grid
+                // Limites
                 player.position.x = Math.max(-12, Math.min(12, player.position.x));
                 player.position.z = Math.max(-12, Math.min(12, player.position.z));
             }
 
-            // Atualizar o alvo da câmera para seguir o jogador
             controls.target.copy(player.position);
 
-            // Animar cubos (rotação)
+            // Animar cubos
             cubes.forEach(cube => {
                 cube.rotation.y += 0.01;
                 cube.rotation.x += 0.005;
             });
 
-            // Animar estrelas
             stars.rotation.y += 0.0002;
 
-            // Anel do player
             if (player.children[0]) {
                 player.children[0].rotation.z += 0.02;
             }
 
-            // Atualizar controles
             controls.update();
-
             renderer.render(scene, camera);
         }
 
         animate();
 
-        // Ajustar tamanho da janela
         window.addEventListener('resize', onWindowResize, false);
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -467,8 +538,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        // Instrução inicial
-        console.log('Portfólio Game iniciado! Use WASD para mover e clique nos cubos para coletar.');
+        console.log('Portfólio Dev iniciado! Colete as skills: Java, JS, Maven, Spring Boot, Three.js, SQL');
     </script>
 </body>
 </html>

@@ -5,18 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfólio | Desenvolvedor Java & JavaScript</title>
 
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 :root{
-  --primary:#00f5ff;
-  --secondary:#ff00c8;
-  --bg-dark:#0a0a14;
-  --glass: rgba(255,255,255,0.06);
+  --primary:#3b82f6;
+  --secondary:#0ea5e9;
+  --bg-dark:#0f172a;
+  --surface:#1e293b;
+  --text:#e2e8f0;
 }
 
 *{
@@ -27,9 +25,9 @@
 }
 
 body{
-  background: radial-gradient(circle at top, #111122, #05050d);
+  background:linear-gradient(180deg,#0f172a,#0b1120);
   font-family:'Poppins',sans-serif;
-  color:white;
+  color:var(--text);
   overflow-x:hidden;
 }
 
@@ -48,26 +46,29 @@ nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(12px);
+  background:rgba(15,23,42,0.85);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
   z-index:10;
 }
 
 nav h2{
   font-family:'Orbitron',sans-serif;
   color:var(--primary);
+  letter-spacing:2px;
 }
 
 nav a{
-  color:white;
+  color:#cbd5e1;
   text-decoration:none;
   margin-left:25px;
   transition:0.3s;
   font-size:0.9rem;
+  font-weight:500;
 }
 
 nav a:hover{
-  color:var(--secondary);
+  color:var(--primary);
 }
 
 header{
@@ -81,17 +82,17 @@ header{
 }
 
 header h1{
-  font-size:4rem;
+  font-size:3.5rem;
   font-family:'Orbitron',sans-serif;
-  background:linear-gradient(45deg,var(--primary),var(--secondary));
+  background:linear-gradient(90deg,#60a5fa,#38bdf8);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 header p{
   margin-top:20px;
-  font-size:1.2rem;
-  opacity:0.8;
+  font-size:1.1rem;
+  color:#94a3b8;
 }
 
 .social-icons{
@@ -99,15 +100,16 @@ header p{
 }
 
 .social-icons i{
-  font-size:1.5rem;
+  font-size:1.4rem;
   margin:0 15px;
   cursor:pointer;
   transition:0.3s;
+  color:#cbd5e1;
 }
 
 .social-icons i:hover{
-  color:var(--secondary);
-  transform:scale(1.2);
+  color:var(--primary);
+  transform:translateY(-3px);
 }
 
 section{
@@ -116,10 +118,10 @@ section{
 
 .section-title{
   text-align:center;
-  font-size:2.5rem;
+  font-size:2.2rem;
   margin-bottom:60px;
   font-family:'Orbitron',sans-serif;
-  color:var(--primary);
+  color:#60a5fa;
 }
 
 .grid{
@@ -129,28 +131,28 @@ section{
 }
 
 .card{
-  background:var(--glass);
-  backdrop-filter:blur(15px);
-  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(30,41,59,0.7);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.05);
   padding:40px;
-  border-radius:20px;
-  transition:0.4s;
+  border-radius:14px;
+  transition:0.3s ease;
 }
 
 .card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 0 30px var(--primary);
+  transform:translateY(-6px);
+  box-shadow:0 10px 25px rgba(59,130,246,0.15);
 }
 
 .card i{
   font-size:2rem;
   margin-bottom:20px;
-  color:var(--secondary);
+  color:#38bdf8;
 }
 
 .progress{
-  height:8px;
-  background:#222;
+  height:6px;
+  background:#0f172a;
   border-radius:10px;
   margin-top:10px;
   overflow:hidden;
@@ -159,32 +161,39 @@ section{
 .progress span{
   display:block;
   height:100%;
-  background:linear-gradient(90deg,var(--primary),var(--secondary));
+  background:linear-gradient(90deg,#3b82f6,#0ea5e9);
 }
 
 input, textarea{
   width:100%;
   padding:12px;
   margin-top:10px;
-  background:#111;
-  border:1px solid #333;
-  color:white;
-  border-radius:10px;
+  background:#0f172a;
+  border:1px solid #1e293b;
+  color:var(--text);
+  border-radius:8px;
 }
 
 button{
   margin-top:20px;
   padding:12px 25px;
   border:none;
-  border-radius:25px;
-  background:linear-gradient(45deg,var(--primary),var(--secondary));
+  border-radius:8px;
+  background:var(--primary);
+  color:white;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:600;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#2563eb;
 }
 
 footer{
   text-align:center;
   padding:40px;
+  color:#94a3b8;
   opacity:0.6;
 }
 
@@ -222,8 +231,8 @@ footer{
 <section id="about">
   <h2 class="section-title">Sobre Mim</h2>
   <div class="card">
-    <i class="fas fa-user-astronaut"></i>
-    <p>Desenvolvedor apaixonado por tecnologia, focado em criar sistemas modernos, performáticos e escaláveis utilizando Java e JavaScript.</p>
+    <i class="fas fa-user"></i>
+    <p>Desenvolvedor focado em arquitetura de sistemas escaláveis, APIs robustas e aplicações web modernas utilizando Java e JavaScript.</p>
   </div>
 </section>
 
@@ -254,17 +263,17 @@ footer{
     <div class="card">
       <i class="fas fa-code"></i>
       <h3>Desenvolvimento Web</h3>
-      <p>Criação de sites modernos e sistemas personalizados.</p>
+      <p>Criação de aplicações web modernas, seguras e escaláveis.</p>
     </div>
     <div class="card">
       <i class="fas fa-server"></i>
       <h3>Backend APIs</h3>
-      <p>Construção de APIs REST seguras e escaláveis.</p>
+      <p>Desenvolvimento de APIs REST com foco em performance e segurança.</p>
     </div>
     <div class="card">
       <i class="fas fa-mobile-alt"></i>
       <h3>Responsividade</h3>
-      <p>Sites 100% adaptáveis para qualquer dispositivo.</p>
+      <p>Interfaces adaptáveis para desktop, tablet e mobile.</p>
     </div>
   </div>
 </section>
@@ -275,12 +284,12 @@ footer{
     <div class="card">
       <i class="fas fa-rocket"></i>
       <h3>Projeto 1</h3>
-      <p>Descrição do projeto aqui.</p>
+      <p>Descrição objetiva do projeto e tecnologias utilizadas.</p>
     </div>
     <div class="card">
       <i class="fas fa-laptop-code"></i>
       <h3>Projeto 2</h3>
-      <p>Descrição do projeto aqui.</p>
+      <p>Descrição objetiva do projeto e resultados alcançados.</p>
     </div>
   </div>
 </section>
@@ -310,18 +319,17 @@ document.body.appendChild(renderer.domElement);
 camera.position.z=5;
 
 let particles=[];
-const geometry=new THREE.SphereGeometry(0.04,8,8);
+const geometry=new THREE.SphereGeometry(0.02,8,8);
 
-function createFirework(){
-  const color=new THREE.Color(Math.random(),Math.random(),Math.random());
-  for(let i=0;i<120;i++){
+function createParticles(){
+  const color=new THREE.Color(0.2,0.6,1);
+  for(let i=0;i<100;i++){
     const material=new THREE.MeshBasicMaterial({color:color});
     const particle=new THREE.Mesh(geometry,material);
-    particle.position.set(0,0,0);
-    particle.velocity=new THREE.Vector3(
-      (Math.random()-0.5)*0.25,
-      (Math.random()-0.5)*0.25,
-      (Math.random()-0.5)*0.25
+    particle.position.set(
+      (Math.random()-0.5)*8,
+      (Math.random()-0.5)*6,
+      (Math.random()-0.5)*8
     );
     scene.add(particle);
     particles.push(particle);
@@ -330,19 +338,16 @@ function createFirework(){
 
 function animate(){
   requestAnimationFrame(animate);
-  particles.forEach((p,i)=>{
-    p.position.add(p.velocity);
-    p.material.opacity=0.8;
-    p.material.transparent=true;
-    if(p.position.length()>4){
-      scene.remove(p);
-      particles.splice(i,1);
+  particles.forEach(p=>{
+    p.position.y+=0.002;
+    if(p.position.y>4){
+      p.position.y=-4;
     }
   });
   renderer.render(scene,camera);
 }
 
-setInterval(createFirework,1800);
+createParticles();
 animate();
 </script>
 

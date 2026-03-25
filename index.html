@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar System Portfolio | Java • Spring • JS</title>
+    <title>Lucas Mendes | Dev Portfolio - Sistema Solar</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
+        /* UI Overlays */
         #info {
             position: absolute;
             top: 20px;
@@ -25,6 +27,7 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
+        
         #score {
             position: absolute;
             top: 20px;
@@ -41,6 +44,7 @@
             box-shadow: 0 0 20px #ffaa0033;
             text-shadow: 0 0 10px #ffaa00;
         }
+        
         #controls {
             position: absolute;
             bottom: 30px;
@@ -57,6 +61,7 @@
             display: flex;
             gap: 30px;
         }
+        
         .key {
             background: rgba(255,255,255,0.2);
             padding: 5px 15px;
@@ -65,124 +70,376 @@
             color: #fff;
             border: 1px solid rgba(255,255,255,0.3);
         }
-        #game-overlay {
+        
+        /* Profile Panel */
+        #profile-panel {
             position: absolute;
-            bottom: 100px;
+            bottom: 120px;
             left: 20px;
             color: white;
-            background: rgba(0,0,0,0.6);
-            padding: 15px 25px;
+            background: rgba(0,0,0,0.75);
+            padding: 20px;
             border-radius: 20px;
             border-left: 5px solid #ffaa00;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             max-width: 320px;
             pointer-events: none;
             z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        
+        #profile-panel h2 {
+            margin: 0 0 5px 0;
+            color: #ffaa00;
+            font-size: 24px;
+        }
+        
+        #profile-panel .title {
+            color: #88ccff;
+            margin-bottom: 15px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        #profile-panel .bio {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .skill-tag {
+            background: #ffaa0033;
+            color: #ffdd99;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            border: 1px solid #ffaa0066;
+        }
+        
+        hr {
+            border-color: #444;
+            margin: 12px 0;
+        }
+        
+        /* Projects Panel */
         #projects-panel {
             position: absolute;
             top: 100px;
             right: 20px;
             color: white;
-            background: rgba(0,0,0,0.8);
-            padding: 15px 25px;
+            background: rgba(0,0,0,0.85);
+            padding: 20px;
             border-radius: 20px;
             border-right: 5px solid #ffaa00;
-            backdrop-filter: blur(5px);
-            max-width: 280px;
+            backdrop-filter: blur(10px);
+            max-width: 320px;
             pointer-events: auto;
             z-index: 10;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-height: 70vh;
+            overflow-y: auto;
         }
-        h2 {
-            margin: 0 0 8px 0;
-            color: #ffaa00;
+        
+        #projects-panel::-webkit-scrollbar {
+            width: 6px;
         }
-        h3 {
-            margin: 10px 0 5px 0;
-            color: #ffaa00;
-            font-size: 16px;
-        }
-        p {
-            margin: 5px 0;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        a {
-            color: #ffaa00;
-            text-decoration: none;
-            pointer-events: auto;
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .project-item {
+        
+        #projects-panel::-webkit-scrollbar-track {
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
-            padding: 8px 12px;
-            margin: 8px 0;
+        }
+        
+        #projects-panel::-webkit-scrollbar-thumb {
+            background: #ffaa00;
+            border-radius: 10px;
+        }
+        
+        #projects-panel h3 {
+            margin: 0 0 15px 0;
+            color: #ffaa00;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .project-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 12px 0;
             border-left: 3px solid #ffaa00;
+            transition: transform 0.2s, background 0.2s;
         }
-        .skill-tag {
-            display: inline-block;
-            background: #ffaa0033;
-            color: #ffdd99;
-            padding: 2px 10px;
-            border-radius: 20px;
+        
+        .project-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+        
+        .project-item strong {
+            color: #ffaa00;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .project-item p {
             font-size: 12px;
-            margin: 2px;
-            border: 1px solid #ffaa0066;
+            margin: 5px 0;
+            opacity: 0.8;
         }
-        .sun-glow {
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .project-tech span {
+            background: rgba(100,100,200,0.3);
+            padding: 2px 8px;
+            border-radius: 15px;
+            font-size: 10px;
+            color: #aaccff;
+        }
+        
+        /* Social Panel */
+        #social-panel {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, #ffaa0033, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 5;
+            bottom: 120px;
+            right: 20px;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 15px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+            text-align: center;
+            border: 1px solid rgba(255,170,0,0.3);
+        }
+        
+        #social-panel h4 {
+            margin: 0 0 10px 0;
+            color: #ffaa00;
+            font-size: 14px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: #ffaa00;
+            transform: translateY(-3px);
+        }
+        
+        /* Contact Button */
+        .contact-btn {
+            background: linear-gradient(135deg, #ffaa00, #ff6600);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+        
+        .contact-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255,170,0,0.5);
+        }
+        
+        /* Modal de contato */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: rgba(20,20,40,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #ffaa00;
+            box-shadow: 0 0 50px rgba(255,170,0,0.3);
+        }
+        
+        .modal-content h3 {
+            color: #ffaa00;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content p {
+            margin: 15px 0;
+            color: white;
+        }
+        
+        .modal-content .email {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffaa00;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .close-modal {
+            background: #ffaa00;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            #profile-panel, #projects-panel, #social-panel {
+                max-width: 260px;
+                padding: 12px;
+            }
+            .project-item strong {
+                font-size: 13px;
+            }
+            .social-links a {
+                font-size: 20px;
+            }
         }
     </style>
+    <!-- Font Awesome para ícones sociais -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="info">🌌 Solar System Portfolio - Three.js Game</div>
+    <div id="info">🌌 Lucas Mendes | Full Stack Developer</div>
     <div id="score">⭐ <span id="scoreValue">0</span> / 60</div>
     
-    <div id="game-overlay">
-        <h2>🪐 Competências Planetárias</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px;">
-            <span class="skill-tag">☕ Java (Mercúrio)</span>
-            <span class="skill-tag">📜 JavaScript (Vênus)</span>
-            <span class="skill-tag">📦 Maven (Terra)</span>
-            <span class="skill-tag">🍃 Spring Boot (Marte)</span>
-            <span class="skill-tag">⚡ Three.js (Júpiter)</span>
-            <span class="skill-tag">🗄️ SQL (Saturno)</span>
+    <!-- Perfil do Dono -->
+    <div id="profile-panel">
+        <h2>Lucas Mendes</h2>
+        <div class="title">🚀 Full Stack Developer & 3D Enthusiast</div>
+        <div class="bio">
+            Desenvolvedor full stack com 5+ anos de experiência em Java, Spring Boot e JavaScript. 
+            Apaixonado por criar experiências interativas e soluções escaláveis. Especialista em transformar 
+            ideias em código limpo e eficiente.
         </div>
-        <hr style="border-color: #444; margin: 10px 0;">
-        <p style="text-align: center;">👉 <a href="#">github.com/seu-dev</a> | <a href="#">linkedin.com/in/dev</a></p>
+        <div class="skill-tags">
+            <span class="skill-tag">☕ Java</span>
+            <span class="skill-tag">📜 JavaScript</span>
+            <span class="skill-tag">📦 Maven</span>
+            <span class="skill-tag">🍃 Spring Boot</span>
+            <span class="skill-tag">⚡ Three.js</span>
+            <span class="skill-tag">🗄️ SQL</span>
+            <span class="skill-tag">🐳 Docker</span>
+            <span class="skill-tag">🔄 REST APIs</span>
+        </div>
+        <hr>
+        <div class="bio" style="font-size: 12px;">
+            📍 São Paulo, Brasil | 🎓 Engenharia de Software - USP
+        </div>
     </div>
 
+    <!-- Projetos Pessoais -->
     <div id="projects-panel">
-        <h3>🚀 PROJETOS PESSOAIS</h3>
+        <h3><i class="fas fa-rocket"></i> Projetos em Destaque</h3>
+        
         <div class="project-item">
-            <strong>🪐 Spring E-commerce</strong> - API REST com JPA, Security, Maven
+            <strong>🌍 Sistema Solar Portfolio</strong>
+            <p>Portfólio interativo em 3D com Three.js, representando competências como planetas em um sistema solar navegável.</p>
+            <div class="project-tech">
+                <span>Three.js</span>
+                <span>JavaScript</span>
+                <span>WebGL</span>
+            </div>
         </div>
+        
         <div class="project-item">
-            <strong>🌍 Java Desktop App</strong> - Sistema de estoque com JavaFX
+            <strong>🛒 Spring E-commerce API</strong>
+            <p>API REST completa para e-commerce com Spring Boot, Spring Security JWT, JPA/Hibernate e documentação Swagger.</p>
+            <div class="project-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>JPA</span>
+                <span>PostgreSQL</span>
+            </div>
         </div>
+        
         <div class="project-item">
-            <strong>🛸 Three.js Portfolio</strong> - Este sistema solar interativo
+            <strong>📊 TaskFlow Manager</strong>
+            <p>Aplicação fullstack para gerenciamento de tarefas com React no frontend e Spring Boot no backend, com autenticação JWT.</p>
+            <div class="project-tech">
+                <span>React</span>
+                <span>Spring Boot</span>
+                <span>Maven</span>
+                <span>MySQL</span>
+            </div>
         </div>
+        
         <div class="project-item">
-            <strong>⭐ Spring Boot + React</strong> - Fullstack com autenticação JWT
+            <strong>📱 Mobile Finance App</strong>
+            <p>Aplicativo mobile para controle financeiro pessoal desenvolvido com React Native e integração com API Spring.</p>
+            <div class="project-tech">
+                <span>React Native</span>
+                <span>Spring Boot</span>
+                <span>REST API</span>
+            </div>
         </div>
-        <p style="font-size: 12px; text-align: center; opacity: 0.7; margin-top: 10px;">
-            💡 Colete os planetas para ganhar pontos e explorar o sistema
-        </p>
+        
+        <div class="project-item">
+            <strong>⚡ Microservices Architecture</strong>
+            <p>Projeto de microsserviços com Spring Cloud, Eureka, API Gateway e comunicação assíncrona com RabbitMQ.</p>
+            <div class="project-tech">
+                <span>Spring Cloud</span>
+                <span>Docker</span>
+                <span>RabbitMQ</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Redes Sociais e Contato -->
+    <div id="social-panel">
+        <h4><i class="fas fa-share-alt"></i> Conecte-se comigo</h4>
+        <div class="social-links">
+            <a href="https://github.com/lucasmendes" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/lucasmendes" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://twitter.com/lucasmendes" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com/lucasmendes" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <button class="contact-btn" id="contactBtn"><i class="fas fa-envelope"></i> Contato Profissional</button>
     </div>
 
     <div id="controls">
@@ -191,7 +448,18 @@
         <span><span class="key">R</span> resetar</span>
     </div>
 
-    <!-- Import Three.js e OrbitControls via CDN -->
+    <!-- Modal de Contato -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-envelope"></i> Entre em contato</h3>
+            <p>Envie um e-mail para:</p>
+            <div class="email">📧 lucas.mendes@devportfolio.com</div>
+            <p>ou conecte-se via redes sociais acima.</p>
+            <button class="close-modal" id="closeModal">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Import Three.js -->
     <script type="importmap">
         {
             "imports": {
@@ -207,7 +475,7 @@
 
         // --- Cena, câmera, renderizador ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x030614); // Espaço profundo
+        scene.background = new THREE.Color(0x030614);
         
         // Estrelas de fundo
         const starsGeometry = new THREE.BufferGeometry();
@@ -223,7 +491,7 @@
         const stars = new THREE.Points(starsGeometry, starsMaterial);
         scene.add(stars);
 
-        // Sol (centro do sistema)
+        // Sol
         const sunGeometry = new THREE.SphereGeometry(2.5, 64, 64);
         const sunMaterial = new THREE.MeshStandardMaterial({ 
             color: 0xffaa00,
@@ -234,15 +502,13 @@
         const sun = new THREE.Mesh(sunGeometry, sunMaterial);
         sun.position.set(0, 0, 0);
         sun.castShadow = true;
-        sun.receiveShadow = true;
         scene.add(sun);
 
-        // Adicionar brilho ao sol (point light)
         const sunLight = new THREE.PointLight(0xffaa44, 2, 30);
         sunLight.position.set(0, 0, 0);
         scene.add(sunLight);
 
-        // Adicionar glow effect com partículas ao redor do sol
+        // Partículas ao redor do sol
         const sunGlowParticles = new THREE.BufferGeometry();
         const glowCount = 100;
         const glowPositions = new Float32Array(glowCount * 3);
@@ -270,15 +536,13 @@
         renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
-        // --- Iluminação ---
+        // Iluminação
         const ambientLight = new THREE.AmbientLight(0x404060);
         scene.add(ambientLight);
 
-        // Luz direcional para sombras
         const dirLight = new THREE.DirectionalLight(0xffeedd, 1);
         dirLight.position.set(10, 20, 5);
         dirLight.castShadow = true;
-        dirLight.receiveShadow = true;
         dirLight.shadow.mapSize.width = 1024;
         dirLight.shadow.mapSize.height = 1024;
         const d = 25;
@@ -288,12 +552,12 @@
         dirLight.shadow.camera.bottom = -d;
         scene.add(dirLight);
 
-        // --- Chão com grade espacial (anéis de Saturno estilizado) ---
+        // Grid espacial
         const gridHelper = new THREE.GridHelper(40, 30, 0xffaa00, 0x335588);
         gridHelper.position.y = -2;
         scene.add(gridHelper);
 
-        // Anéis decorativos (como órbitas)
+        // Anéis orbitais
         const ringOrbit1 = new THREE.Mesh(
             new THREE.TorusGeometry(8, 0.05, 16, 100),
             new THREE.MeshStandardMaterial({ color: 0x4488ff, emissive: 0x113366, transparent: true, opacity: 0.3 })
@@ -310,21 +574,18 @@
         ringOrbit2.position.y = 0;
         scene.add(ringOrbit2);
 
-        // --- Planetas representando skills (agora esferas com características únicas) ---
+        // Planetas
         const planets = [];
-        
-        // Configurações dos planetas: [nome, cor, tamanho, posição, característica especial]
         const planetConfigs = [
-            { name: 'Mercúrio (Java)', color: 0xb0723c, size: 0.9, pos: { x: -5, y: 0.5, z: 3 }, speed: 0.02, emissive: 0x442200 },
-            { name: 'Vênus (JavaScript)', color: 0xf7df1e, size: 1.0, pos: { x: 4, y: 0.2, z: -4 }, speed: 0.015, emissive: 0x443300 },
-            { name: 'Terra (Maven)', color: 0x2288ff, size: 1.1, pos: { x: -3, y: -0.3, z: -5 }, speed: 0.01, emissive: 0x112244 },
-            { name: 'Marte (Spring)', color: 0xff6633, size: 0.95, pos: { x: 6, y: 0.8, z: 5 }, speed: 0.018, emissive: 0x442200 },
-            { name: 'Júpiter (Three.js)', color: 0xcc8866, size: 1.8, pos: { x: -7, y: -0.5, z: -3 }, speed: 0.008, emissive: 0x332211 },
-            { name: 'Saturno (SQL)', color: 0xeeddbb, size: 1.5, pos: { x: 2, y: 0.3, z: 7 }, speed: 0.012, emissive: 0x333333, hasRing: true }
+            { name: 'Mercúrio (Java)', color: 0xb0723c, size: 0.9, pos: { x: -5, y: 0.5, z: 3 }, emissive: 0x442200 },
+            { name: 'Vênus (JavaScript)', color: 0xf7df1e, size: 1.0, pos: { x: 4, y: 0.2, z: -4 }, emissive: 0x443300 },
+            { name: 'Terra (Maven)', color: 0x2288ff, size: 1.1, pos: { x: -3, y: -0.3, z: -5 }, emissive: 0x112244 },
+            { name: 'Marte (Spring)', color: 0xff6633, size: 0.95, pos: { x: 6, y: 0.8, z: 5 }, emissive: 0x442200 },
+            { name: 'Júpiter (Three.js)', color: 0xcc8866, size: 1.8, pos: { x: -7, y: -0.5, z: -3 }, emissive: 0x332211 },
+            { name: 'Saturno (SQL)', color: 0xeeddbb, size: 1.5, pos: { x: 2, y: 0.3, z: 7 }, emissive: 0x333333, hasRing: true }
         ];
 
         planetConfigs.forEach((config, index) => {
-            // Planeta principal
             const geometry = new THREE.SphereGeometry(config.size, 32, 32);
             const material = new THREE.MeshStandardMaterial({ 
                 color: config.color,
@@ -338,9 +599,7 @@
             planet.receiveShadow = true;
             planet.position.set(config.pos.x, config.pos.y, config.pos.z);
             
-            // Adicionar características especiais
             if (config.hasRing) {
-                // Anel para Saturno
                 const ringGeo = new THREE.TorusGeometry(config.size * 1.6, 0.15, 16, 100);
                 const ringMat = new THREE.MeshStandardMaterial({ color: 0xccaa88, emissive: 0x221100, side: THREE.DoubleSide, transparent: true, opacity: 0.7 });
                 const ring = new THREE.Mesh(ringGeo, ringMat);
@@ -349,23 +608,15 @@
                 planet.add(ring);
             }
             
-            // Adicionar atmosfera/nuvens para alguns planetas
-            if (index === 2) { // Terra
-                const cloudGeo = new THREE.SphereGeometry(config.size * 1.02, 32, 32);
-                const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, emissive: 0x112233 });
-                const clouds = new THREE.Mesh(cloudGeo, cloudMat);
-                planet.add(clouds);
-            }
-            
-            // Adicionar pequenas luas/partículas orbitais
-            const moonCount = index === 4 ? 12 : 6; // Júpiter tem mais
+            // Partículas orbitais
+            const moonCount = index === 4 ? 12 : 6;
             const particleGeo = new THREE.BufferGeometry();
             const particlePositions = new Float32Array(moonCount * 3);
             for (let j = 0; j < moonCount; j++) {
                 const angle = (j / moonCount) * Math.PI * 2;
                 const radius = config.size * 1.8;
                 particlePositions[j*3] = Math.cos(angle) * radius;
-                particlePositions[j*3+1] = Math.sin(angle) * radius * 0.3; // Elipse
+                particlePositions[j*3+1] = Math.sin(angle) * radius * 0.3;
                 particlePositions[j*3+2] = Math.sin(angle) * radius * 0.5;
             }
             particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
@@ -377,10 +628,9 @@
             planets.push(planet);
         });
 
-        // --- Jogador (nave espacial) ---
+        // Nave espacial
         const playerGroup = new THREE.Group();
         
-        // Corpo da nave
         const shipBodyGeo = new THREE.ConeGeometry(0.8, 1.5, 8);
         const shipBodyMat = new THREE.MeshStandardMaterial({ color: 0x44aaff, emissive: 0x114466 });
         const shipBody = new THREE.Mesh(shipBodyGeo, shipBodyMat);
@@ -388,7 +638,6 @@
         shipBody.position.y = 0;
         playerGroup.add(shipBody);
         
-        // Asas
         const wingGeo = new THREE.BoxGeometry(1.5, 0.2, 0.5);
         const wingMat = new THREE.MeshStandardMaterial({ color: 0xffaa00 });
         const wingLeft = new THREE.Mesh(wingGeo, wingMat);
@@ -399,14 +648,12 @@
         wingRight.position.set(1, 0, 0);
         playerGroup.add(wingRight);
         
-        // Cockpit
         const cockpitGeo = new THREE.SphereGeometry(0.4, 16, 16);
         const cockpitMat = new THREE.MeshStandardMaterial({ color: 0x88ccff, emissive: 0x224466 });
         const cockpit = new THREE.Mesh(cockpitGeo, cockpitMat);
         cockpit.position.set(0, 0.4, 0.5);
         playerGroup.add(cockpit);
         
-        // Thruster glow
         const thrusterGeo = new THREE.ConeGeometry(0.3, 0.5, 8);
         const thrusterMat = new THREE.MeshStandardMaterial({ color: 0xff6600, emissive: 0xff3300 });
         const thruster = new THREE.Mesh(thrusterGeo, thrusterMat);
@@ -418,7 +665,7 @@
         playerGroup.scale.set(0.8, 0.8, 0.8);
         scene.add(playerGroup);
 
-        // --- Controles e lógica ---
+        // Controles
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
@@ -430,7 +677,6 @@
         const keyState = { w: false, a: false, s: false, d: false };
         const moveSpeed = 0.2;
         let score = 0;
-        const maxScore = 60;
         const scoreElement = document.getElementById('scoreValue');
 
         window.addEventListener('keydown', (e) => {
@@ -445,14 +691,13 @@
         
         window.addEventListener('keyup', (e) => {
             switch(e.code) {
-                case 'KeyW': keyState.w = false; e.preventDefault(); break;
-                case 'KeyA': keyState.a = false; e.preventDefault(); break;
-                case 'KeyS': keyState.s = false; e.preventDefault(); break;
-                case 'KeyD': keyState.d = false; e.preventDefault(); break;
+                case 'KeyW': keyState.w = false; break;
+                case 'KeyA': keyState.a = false; break;
+                case 'KeyS': keyState.s = false; break;
+                case 'KeyD': keyState.d = false; break;
             }
         });
 
-        // Raycaster para clique nos planetas
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
         
@@ -471,8 +716,6 @@
                     planets.splice(index, 1);
                     score += 10;
                     scoreElement.textContent = score;
-                    
-                    // Explosão planetária
                     createExplosion(hitPlanet.position.clone());
                 }
             }
@@ -488,7 +731,6 @@
                 positions[i*3] = (Math.random() - 0.5) * 4;
                 positions[i*3+1] = (Math.random() - 0.5) * 4;
                 positions[i*3+2] = (Math.random() - 0.5) * 4;
-                
                 colors[i*3] = Math.random() * 0.8 + 0.2;
                 colors[i*3+1] = Math.random() * 0.5;
                 colors[i*3+2] = Math.random() * 0.3;
@@ -497,13 +739,7 @@
             particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             
-            const particleMat = new THREE.PointsMaterial({ 
-                size: 0.3, 
-                vertexColors: true, 
-                transparent: true, 
-                blending: THREE.AdditiveBlending 
-            });
-            
+            const particleMat = new THREE.PointsMaterial({ size: 0.3, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending });
             const particles = new THREE.Points(particleGeo, particleMat);
             particles.position.copy(position);
             scene.add(particles);
@@ -537,7 +773,6 @@
                         planet.add(ring);
                     }
                     
-                    // Readicionar partículas
                     const moonCount = 6;
                     const particleGeo = new THREE.BufferGeometry();
                     const particlePositions = new Float32Array(moonCount * 3);
@@ -565,7 +800,6 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Movimento da nave
             if (keyState.w || keyState.s || keyState.a || keyState.d) {
                 const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
                 forward.y = 0;
@@ -584,45 +818,13 @@
                 moveDelta.normalize().multiplyScalar(moveSpeed);
                 playerGroup.position.add(moveDelta);
                 
-                // Rotacionar nave na direção do movimento
                 if (moveDelta.length() > 0.01) {
                     const targetRotation = Math.atan2(moveDelta.x, moveDelta.z);
                     playerGroup.rotation.y = targetRotation;
                 }
                 
-                // Limites
                 playerGroup.position.x = Math.max(-18, Math.min(18, playerGroup.position.x));
                 playerGroup.position.z = Math.max(-18, Math.min(18, playerGroup.position.z));
             }
 
-            controls.target.copy(playerGroup.position);
-
-            // Animar planetas (rotação)
-            planets.forEach(planet => {
-                planet.rotation.y += 0.005;
-                planet.rotation.x += 0.002;
-            });
-
-            // Animar estrelas
-            stars.rotation.y += 0.0001;
-            
-            // Animar sol
-            sun.rotation.y += 0.001;
-
-            controls.update();
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        window.addEventListener('resize', onWindowResize, false);
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        console.log('🌌 Sistema Solar Portfolio iniciado! Navegue e colete os planetas!');
-    </script>
-</body>
-</html>
+            controls

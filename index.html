@@ -366,6 +366,9 @@
             text-decoration: none;
             font-size: 0.85rem;
             transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .project-links a:hover {
@@ -489,8 +492,8 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
-                        <h1>Olá, sou <span class="highlight">Victor Manoel</span><br>Desenvoldor de Sistemas</h1>
-                        <p>Especialista em desenvolvimento backend com Java e Spring Boot, criando soluções escaláveis e de alto desempenho. Apaixonado por arquitetura de software e boas práticas de progamação.</p>
+                        <h1>Olá, sou <span class="highlight">Victor Manoel</span><br>Desenvolvedor de Sistemas</h1>
+                        <p>Especialista em desenvolvimento backend com Java e Spring Boot, criando soluções escaláveis e de alto desempenho. Apaixonado por arquitetura de software e boas práticas de programação.</p>
                         <div class="hero-buttons">
                             <a href="#projects" class="btn-primary">Ver Projetos</a>
                             <a href="#contact" class="btn-secondary">Contato</a>
@@ -515,7 +518,7 @@
                             <div class="code-line" style="margin-left: 20px;"></div>
                             <div class="code-line" style="margin-left: 20px;"><span class="code-keyword">public</span> <span class="code-function">DeveloperResponse</span> getProfile() {</div>
                             <div class="code-line" style="margin-left: 40px;"><span class="code-keyword">return</span> DeveloperResponse.builder()</div>
-                            <div class="code-line" style="margin-left: 60px;">.name(<span class="code-string">"Victor manoel"</span>)</div>
+                            <div class="code-line" style="margin-left: 60px;">.name(<span class="code-string">"Victor Manoel"</span>)</div>
                             <div class="code-line" style="margin-left: 60px;">.role(<span class="code-string">"Software Engineer"</span>)</div>
                             <div class="code-line" style="margin-left: 60px;">.stack(<span class="code-string">"Java, Spring, React"</span>)</div>
                             <div class="code-line" style="margin-left: 60px;">.build();</div>
@@ -599,17 +602,16 @@
                     <div class="project-card">
                         <div class="project-content">
                             <div class="project-icon">🏦</div>
-                            <h3>Agents menager</h3>
-                            <p>API escalável com Spring Boot, sistena de agendamentos de ambientes para reuniões, eventos e ectc... .</p>
+                            <h3>Agents Manager</h3>
+                            <p>API escalável com Spring Boot, sistema de agendamentos de ambientes para reuniões, eventos e etc...</p>
                             <div class="project-tech">
                                 <span>Java</span>
                                 <span>Spring Boot</span>
                                 <span>HTML</span>
-                                <span>Mysql</span>
-                              
+                                <span>MySQL</span>
                             </div>
                             <div class="project-links">
-                                <a href="#"><i class="fab fa-github"></i> Código</a>
+                                <a href="https://github.com/vitinho-bit/agents-manager" target="_blank"><i class="fab fa-github"></i> Código</a>
                                 <a href="#"><i class="fas fa-external-link-alt"></i> Demo</a>
                             </div>
                         </div>
@@ -617,8 +619,8 @@
                     <div class="project-card">
                         <div class="project-content">
                             <div class="project-icon">📦</div>
-                            <h3>Ecommerce-digital</h3>
-                            <p>Sistema commerce de uma loja virtual de venda de eletronicos para computadores em geral.</p>
+                            <h3>Ecommerce Digital</h3>
+                            <p>Sistema e-commerce de uma loja virtual de venda de eletrônicos para computadores em geral.</p>
                             <div class="project-tech">
                                 <span>HTML</span>
                                 <span>CSS</span>
@@ -626,7 +628,7 @@
                                 <span>Java</span>
                             </div>
                             <div class="project-links">
-                                <a href="#"><i class="fab fa-github"></i> Código</a>
+                                <a href="https://github.com/vitinho-bit/ecommerce-digital" target="_blank"><i class="fab fa-github"></i> Código</a>
                                 <a href="#"><i class="fas fa-external-link-alt"></i> Demo</a>
                             </div>
                         </div>
@@ -634,23 +636,19 @@
                     <div class="project-card">
                         <div class="project-content">
                             <div class="project-icon">⚡</div>
-                            <h3>Projeto em andamento</h3>
-                            <p>...</p>
+                            <h3>TaskFlow Manager</h3>
+                            <p>Sistema de gerenciamento de tarefas com Spring Boot no backend e React no frontend.</p>
                             <div class="project-tech">
-                                <span>Spring boot</span>
+                                <span>Spring Boot</span>
                                 <span>React</span>
                                 <span>CSS</span>
                                 <span>Java</span>
-                                <span>Java Scrpt</span>
+                                <span>JavaScript</span>
                             </div>
                             <div class="project-links">
-                                <a href="#"><i class="fab fa-github"></i> Código</a>
+                                <a href="https://github.com/vitinho-bit/taskflow-manager" target="_blank"><i class="fab fa-github"></i> Código</a>
                                 <a href="#"><i class="fas fa-external-link-alt"></i> Demo</a>
                             </div>
-                        </div>
-                    </div>
-             
-                            
                         </div>
                     </div>
                 </div>
@@ -688,10 +686,10 @@
                     <h2 style="margin-bottom: 1rem; font-size: 1.8rem;">Vamos construir algo incrível?</h2>
                     <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">Estou disponível para novos desafios e oportunidades. Entre em contato para discutirmos seu próximo projeto.</p>
                     <div class="contact-buttons">
-                        <a href="emanuelvcitor471@gmail.com" class="contact-btn"><i class="fas fa-envelope"></i> emanuelvictor471@gmail.com</a>
+                        <a href="mailto:emanuelvictor471@gmail.com" class="contact-btn"><i class="fas fa-envelope"></i> emanuelvictor471@gmail.com</a>
                         <a href="https://github.com/vitinho-bit" target="_blank" class="contact-btn"><i class="fab fa-github"></i> GitHub</a>
                         <a href="https://www.linkedin.com/in/victor-manoel-dos-santos-paz-2a2a57333/" target="_blank" class="contact-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                        <a href="#" class="contact-btn"><i class="fab fa-whatsapp"></i> (48) 99686-9669</a>
+                        <a href="https://wa.me/5548996869669" target="_blank" class="contact-btn"><i class="fab fa-whatsapp"></i> (48) 99686-9669</a>
                     </div>
                 </div>
             </div>
@@ -699,7 +697,7 @@
 
         <footer class="footer">
             <div class="container">
-                <p>&copy; 2026 Victor manoel - Desenvolvimento de Sistemas. Todos os direitos reservados.</p>
+                <p>&copy; 2026 Victor Manoel - Desenvolvimento de Sistemas. Todos os direitos reservados.</p>
             </div>
         </footer>
     </main>
@@ -734,4 +732,3 @@
     </script>
 </body>
 </html>
-       

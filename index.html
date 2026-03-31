@@ -1,3 +1,6 @@
+Aqui está seu portfólio com uma funcionalidade de modal para exibir imagens dos projetos ao clicar em "Demo". Cada projeto terá sua própria galeria de imagens:
+
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -553,11 +556,171 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
         }
 
         .project-links a:hover {
             color: #48bbff;
             transform: translateX(5px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f172a, #0a0f1a);
+            border-radius: 24px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid rgba(72, 187, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(72, 187, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: #48bbff;
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #ff5f56;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-image {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(72, 187, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-5px);
+            border-color: rgba(72, 187, 255, 0.5);
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1e2a3a, #0f172a);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #48bbff;
+        }
+
+        .image-placeholder i {
+            font-size: 3rem;
+            opacity: 0.5;
+        }
+
+        .image-placeholder span {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .project-details {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(72, 187, 255, 0.2);
+        }
+
+        .project-details h3 {
+            color: #48bbff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .project-details p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .project-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .project-details li {
+            color: #b0c4de;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-details li i {
+            color: #48bbff;
+            width: 20px;
         }
 
         /* Experience */
@@ -698,6 +861,13 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+            .project-gallery {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -816,7 +986,7 @@
             <div class="container">
                 <h2 class="section-title">Projetos em Destaque</h2>
                 <div class="projects-grid">
-                    <div class="project-card">
+                    <div class="project-card" data-project="agents-manager">
                         <div class="project-content">
                             <div class="project-icon">🏦</div>
                             <h3>Agents Manager</h3>
@@ -829,11 +999,11 @@
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/vitinho-bit/events-manager-master" target="_blank"><i class="fab fa-github"></i> Código</a>
-                                <a href="#"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                <a href="#" class="demo-btn" data-project="agents-manager"><i class="fas fa-external-link-alt"></i> Demo</a>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card" data-project="ecommerce-digital">
                         <div class="project-content">
                             <div class="project-icon">📦</div>
                             <h3>Ecommerce Digital</h3>
@@ -846,11 +1016,11 @@
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/vitinho-bit/perifericos" target="_blank"><i class="fab fa-github"></i> Código</a>
-                                <a href="#"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                <a href="#" class="demo-btn" data-project="ecommerce-digital"><i class="fas fa-external-link-alt"></i> Demo</a>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card" data-project="taskflow-manager">
                         <div class="project-content">
                             <div class="project-icon">⚡</div>
                             <h3>TaskFlow Manager</h3>
@@ -864,7 +1034,7 @@
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/vitinho-bit/easyAmbiente-main" target="_blank"><i class="fab fa-github"></i> Código</a>
-                                <a href="#"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                <a href="#" class="demo-btn" data-project="taskflow-manager"><i class="fas fa-external-link-alt"></i> Demo</a>
                             </div>
                         </div>
                     </div>
@@ -879,95 +1049,4 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <h3>Junior em desenvolvimento de sistemas</h3>
-                        <div class="timeline-date">2025</div>
-                        <p>Desenvolvimento de microsserviços com Java e Spring Boot para plataforma de e-commerce.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3>Backend Developer</h3>
-                        <div class="timeline-date">2025</div>
-                        <p>Desenvolvimento e manutenção de APIs REST para sistema commerce. Implementação de segurança com senhas criptografadas e integração de sistemas.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3>Software Developer Jr</h3>
-                        <div class="timeline-date">2025</div>
-                        <p>Desenvolvimento de aplicações web com Java e Spring boot e react.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="container">
-                <div class="contact-section">
-                    <h2 style="margin-bottom: 1rem; font-size: 1.8rem;">Vamos construir algo incrível?</h2>
-                    <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">Estou disponível para novos desafios e oportunidades. Entre em contato para discutirmos seu próximo projeto.</p>
-                    <div class="contact-buttons">
-                        <a href="mailto:emanuelvictor471@gmail.com" class="contact-btn"><i class="fas fa-envelope"></i> emanuelvictor471@gmail.com</a>
-                        <a href="https://github.com/vitinho-bit" target="_blank" class="contact-btn"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://www.linkedin.com/in/victor-manoel-dos-santos-paz-2a2a57333/" target="_blank" class="contact-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                        <a href="https://wa.me/5548996869669" target="_blank" class="contact-btn"><i class="fab fa-whatsapp"></i> (48) 99686-9669</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2026 Victor Manoel - Desenvolvimento de Sistemas. Todos os direitos reservados.</p>
-            </div>
-        </footer>
-    </main>
-
-    <script>
-        // Smooth scroll para links da navegação
-        document.querySelectorAll('.nav-links a, .hero-buttons a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId && targetId !== '#') {
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-
-        // Navbar background ao scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Scroll Animation - Reveal elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all elements that should animate
-        document.querySelectorAll('.section-title, .skill-category, .project-card, .timeline-item, .contact-section').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Add hover effect to navbar links
-        console.log('Portfolio melhorado carregado com sucesso!');
-    </script>
-</body>
-</html>
+                        <div class="timeline-date">2025

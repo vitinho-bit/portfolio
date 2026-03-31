@@ -90,6 +90,17 @@
             100% { background-position: 100px 100px; }
         }
         
+        /* Canvas para fogos de artifício */
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0a0f1a; }
@@ -138,6 +149,8 @@
             background-clip: text;
             color: transparent;
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
         .logo::before {
@@ -153,6 +166,7 @@
         }
         
         .logo:hover::before { opacity: 0.5; }
+        .logo:hover { transform: scale(1.05); }
         
         .nav-links {
             display: flex;
@@ -814,6 +828,9 @@
     </style>
 </head>
 <body>
+    <!-- Canvas para fogos de artifício -->
+    <canvas id="fireworks-canvas"></canvas>
+    
     <!-- Fundo animado RGB -->
     <div class="animated-bg"></div>
 
@@ -822,7 +839,7 @@
     ============================================ -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">&lt;Victor.M /&gt;</div>
+            <div class="logo" id="logo-click">&lt;Victor.M /&gt;</div>
             <ul class="nav-links">
                 <li><a href="#home">Início</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -1062,6 +1079,152 @@
          SCRIPT PRINCIPAL
     ============================================ -->
     <script>
+        // ============================================
+        // FOGOS DE ARTIFÍCIO
+        // ============================================
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let fireworks = [];
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        class Firework {
+            constructor(x, y, targetX, targetY) {
+                this.x = x;
+                this.y = y;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.speed = 5;
+                this.angle = Math.atan2(targetY - y, targetX - x);
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.size = 3;
+                this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                return Math.hypot(this.x - this.targetX, this.y - this.targetY) < 5;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+        
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = Math.random() * 3 + 2;
+                this.speed = Math.random() * 4 + 2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.gravity = 0.1;
+                this.alpha = 1;
+                this.decay = 0.02;
+            }
+            
+            update() {
+                this.vx *= 0.98;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+                return this.alpha <= 0;
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        
+        function createExplosion(x, y, color) {
+            const particleCount = 60 + Math.random() * 40;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+        
+        function launchFirework() {
+            const x = Math.random() * canvas.width;
+            const y = canvas.height;
+            const targetX = x;
+            const targetY = Math.random() * canvas.height * 0.6 + canvas.height * 0.2;
+            fireworks.push(new Firework(x, y, targetX, targetY));
+        }
+        
+        function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const firework = fireworks[i];
+                const reached = firework.update();
+                firework.draw();
+                
+                if (reached) {
+                    createExplosion(firework.targetX, firework.targetY, firework.color);
+                    fireworks.splice(i, 1);
+                }
+            }
+            
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const particle = particles[i];
+                const dead = particle.update();
+                particle.draw();
+                if (dead) particles.splice(i, 1);
+            }
+            
+            requestAnimationFrame(animateFireworks);
+        }
+        
+        function startFireworks() {
+            // Lançar 8 fogos simultaneamente
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => launchFirework(), i * 100);
+            }
+            // Continuar lançando por 3 segundos
+            const interval = setInterval(() => {
+                launchFirework();
+            }, 200);
+            setTimeout(() => clearInterval(interval), 3000);
+        }
+        
+        animateFireworks();
+        
+        // Evento de clique no logo
+        const logo = document.getElementById('logo-click');
+        logo.addEventListener('click', (e) => {
+            e.stopPropagation();
+            startFireworks();
+            
+            // Efeito visual de clique
+            logo.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                logo.style.transform = 'scale(1)';
+            }, 200);
+        });
+        
         // ============================================
         // PROJETOS DATA
         // ============================================

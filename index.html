@@ -1,6 +1,3 @@
-Aqui está o código completamente reformatado e organizado, com os modais corrigidos (sem piscar) e uma estrutura de código muito mais limpa e fácil de navegar:
-
-```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -858,4 +855,235 @@ Aqui está o código completamente reformatado e organizado, com os modais corri
                         <p>Desenvolvimento de microsserviços com Java e Spring Boot para plataforma de e-commerce.</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>Backend Developer
+                        <h3>Backend Developer</h3>
+                        <div class="timeline-date">2024 - 2025</div>
+                        <p>Desenvolvimento e manutenção de APIs REST para sistema commerce. Implementação de segurança com senhas criptografadas.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Software Developer Jr</h3>
+                        <div class="timeline-date">2023 - 2024</div>
+                        <p>Desenvolvimento de aplicações web com Java e Spring Boot e React.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             CONTACT SECTION
+        ============================================ -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="contact-section">
+                    <h2 style="margin-bottom: 1rem; font-size: 2rem;">✨ Vamos construir algo incrível?</h2>
+                    <p style="max-width: 600px; margin: 0 auto;">Estou disponível para novos desafios e oportunidades. Entre em contato para discutirmos seu próximo projeto.</p>
+                    <div class="contact-buttons">
+                        <a href="mailto:emanuelvictor471@gmail.com" class="contact-btn"><i class="fas fa-envelope"></i> emanuelvictor471@gmail.com</a>
+                        <a href="https://github.com/vitinho-bit" target="_blank" class="contact-btn"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://www.linkedin.com/in/victor-manoel-dos-santos-paz-2a2a57333/" target="_blank" class="contact-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        <a href="https://wa.me/5548996869669" target="_blank" class="contact-btn"><i class="fab fa-whatsapp"></i> (48) 99686-9669</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2026 Victor Manoel - Desenvolvimento de Sistemas. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ============================================
+         MODAL
+    ============================================ -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Agents Manager</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="project-gallery" id="modalGallery"></div>
+                <div class="project-details" id="modalDetails"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SCRIPT
+    ============================================ -->
+    <script>
+        // ============================================
+        // PROJETOS DATA
+        // ============================================
+        const projectsData = {
+            agents: {
+                title: "Agents Manager",
+                description: "API escalável desenvolvida com Spring Boot para gerenciamento de agendamentos de ambientes. Sistema completo para reserva de salas de reunião, eventos e espaços corporativos.",
+                features: [
+                    "Autenticação JWT com Spring Security",
+                    "CRUD completo de ambientes e reservas",
+                    "Validação de disponibilidade em tempo real",
+                    "Documentação Swagger",
+                    "Testes unitários com JUnit e Mockito"
+                ],
+                images: [
+                    "https://via.placeholder.com/400x300/2c7be5/ffffff?text=Agents+Manager+-+Dashboard",
+                    "https://via.placeholder.com/400x300/48bbff/ffffff?text=Agents+Manager+-+Agendamento",
+                    "https://via.placeholder.com/400x300/1a5bc4/ffffff?text=Agents+Manager+-+Ambientes"
+                ]
+            },
+            ecommerce: {
+                title: "Ecommerce Digital",
+                description: "Plataforma de e-commerce para venda de eletrônicos e periféricos. Interface moderna e responsiva com integração backend.",
+                features: [
+                    "Catálogo de produtos com filtros",
+                    "Carrinho de compras",
+                    "Sistema de autenticação",
+                    "Painel administrativo",
+                    "Integração com API REST"
+                ],
+                images: [
+                    "https://via.placeholder.com/400x300/ff6b6b/ffffff?text=Ecommerce+-+Home",
+                    "https://via.placeholder.com/400x300/ff8c42/ffffff?text=Ecommerce+-+Produtos",
+                    "https://via.placeholder.com/400x300/ff6b6b/ffffff?text=Ecommerce+-+Carrinho"
+                ]
+            },
+            taskflow: {
+                title: "TaskFlow Manager",
+                description: "Sistema completo de gerenciamento de tarefas com arquitetura moderna, permitindo organização eficiente do trabalho em equipe.",
+                features: [
+                    "Quadro Kanban interativo",
+                    "Criação e atribuição de tarefas",
+                    "Comentários e anexos",
+                    "Notificações em tempo real",
+                    "Relatórios de produtividade"
+                ],
+                images: [
+                    "https://via.placeholder.com/400x300/4caf50/ffffff?text=TaskFlow+-+Dashboard",
+                    "https://via.placeholder.com/400x300/45a049/ffffff?text=TaskFlow+-+Kanban",
+                    "https://via.placeholder.com/400x300/66bb6a/ffffff?text=TaskFlow+-+Tarefas"
+                ]
+            }
+        };
+
+        // ============================================
+        // MODAL CONTROLS
+        // ============================================
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalGallery = document.getElementById('modalGallery');
+        const modalDetails = document.getElementById('modalDetails');
+        const closeModalBtn = document.querySelector('.close-modal');
+
+        function openModal(projectId) {
+            const project = projectsData[projectId];
+            if (!project) return;
+
+            modalTitle.textContent = project.title;
+            
+            // Preencher galeria
+            modalGallery.innerHTML = '';
+            project.images.forEach((imgUrl, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-image';
+                galleryItem.innerHTML = `
+                    <img src="${imgUrl}" 
+                         alt="${project.title} - Imagem ${index + 1}" 
+                         loading="lazy"
+                         onerror="this.src='https://via.placeholder.com/400x300/2c7be5/ffffff?text=Imagem+${index+1}'">
+                `;
+                modalGallery.appendChild(galleryItem);
+            });
+            
+            // Preencher detalhes
+            let techHtml = '';
+            if (projectId === 'agents') {
+                techHtml = '<span>Java 17</span><span>Spring Boot</span><span>Spring Security</span><span>JPA/Hibernate</span><span>MySQL</span><span>JWT</span>';
+            } else if (projectId === 'ecommerce') {
+                techHtml = '<span>React</span><span>JavaScript</span><span>CSS3</span><span>HTML5</span><span>Java</span><span>Spring Boot</span>';
+            } else {
+                techHtml = '<span>Spring Boot</span><span>React</span><span>TypeScript</span><span>Tailwind CSS</span><span>PostgreSQL</span><span>WebSocket</span>';
+            }
+            
+            modalDetails.innerHTML = `
+                <h3><i class="fas fa-info-circle"></i> Sobre o Projeto</h3>
+                <p>${project.description}</p>
+                <h3><i class="fas fa-check-circle"></i> Principais Funcionalidades</h3>
+                <ul>
+                    ${project.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}
+                </ul>
+                <h3><i class="fas fa-code-branch"></i> Tecnologias Utilizadas</h3>
+                <div class="project-tech" style="margin-top: 10px;">${techHtml}</div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners para botões Demo
+        document.querySelectorAll('.demo-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectId = btn.getAttribute('data-project');
+                openModal(projectId);
+            });
+        });
+
+        // Fechar modal ao clicar no X ou fora
+        closeModalBtn.addEventListener('click', closeModal);
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-title, .skill-category, .project-card, .timeline-item, .contact-section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ============================================
+        // NAVBAR SCROLL EFFECT
+        // ============================================
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================
+        // SMOOTH SCROLL
+        // ============================================
+        document.querySelectorAll('.nav-links a, .hero-buttons a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId !== '#') {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -462,7 +462,7 @@
         .project-links a:hover { color: #48bbff; gap: 10px; }
         
         /* ============================================
-           MODAL
+           MODAL (Principal)
         ============================================ */
         .modal {
             display: none;
@@ -582,6 +582,107 @@
         }
         
         .project-details li i { color: #48bbff; width: 22px; }
+        
+        /* ============================================
+           LIGHTBOX (Imagem em Tela Cheia)
+        ============================================ */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+        }
+        
+        .lightbox.active {
+            display: flex;
+            animation: lightboxFadeIn 0.3s ease;
+        }
+        
+        @keyframes lightboxFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            animation: lightboxZoom 0.3s ease;
+        }
+        
+        @keyframes lightboxZoom {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            border: 2px solid rgba(72,187,255,0.3);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .lightbox-close:hover {
+            background: #ff5f56;
+            transform: rotate(90deg);
+        }
+        
+        .lightbox-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.6);
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .lightbox-close {
+                top: -30px;
+                right: -10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+            .lightbox-caption {
+                bottom: -30px;
+                font-size: 0.8rem;
+            }
+        }
         
         /* ============================================
            TIMELINE
@@ -894,7 +995,7 @@
     </main>
 
     <!-- ============================================
-         MODAL
+         MODAL (Projeto)
     ============================================ -->
     <div id="projectModal" class="modal">
         <div class="modal-content">
@@ -906,6 +1007,17 @@
                 <div class="project-gallery" id="modalGallery"></div>
                 <div class="project-details" id="modalDetails"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         LIGHTBOX (Imagem em Tela Cheia)
+    ============================================ -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close">&times;</button>
+            <img id="lightboxImage" src="" alt="Imagem em tela cheia">
+            <div id="lightboxCaption" class="lightbox-caption"></div>
         </div>
     </div>
 
@@ -976,13 +1088,41 @@
         const modalDetails = document.getElementById('modalDetails');
         const closeModalBtn = document.querySelector('.close-modal');
 
+        // ============================================
+        // LIGHTBOX CONTROLS
+        // ============================================
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const lightboxClose = document.querySelector('.lightbox-close');
+
+        function openLightbox(imageUrl, title, index) {
+            lightboxImage.src = imageUrl;
+            lightboxCaption.textContent = `${title} - Imagem ${index + 1}`;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // ============================================
+        // ABRIR MODAL DO PROJETO
+        // ============================================
         function openModal(projectId) {
             const project = projectsData[projectId];
             if (!project) return;
 
             modalTitle.textContent = project.title;
             
-            // Preencher galeria
+            // Preencher galeria com evento de clique para abrir lightbox
             modalGallery.innerHTML = '';
             project.images.forEach((imgUrl, index) => {
                 const galleryItem = document.createElement('div');
@@ -993,6 +1133,11 @@
                          loading="lazy"
                          onerror="this.src='https://via.placeholder.com/400x300/2c7be5/ffffff?text=Imagem+${index+1}'">
                 `;
+                // Adicionar evento de clique na imagem
+                galleryItem.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openLightbox(imgUrl, project.title, index);
+                });
                 modalGallery.appendChild(galleryItem);
             });
             
@@ -1026,7 +1171,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Event listeners para botões Demo
+        // Event listeners
         document.querySelectorAll('.demo-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1035,7 +1180,6 @@
             });
         });
 
-        // Fechar modal ao clicar no X ou fora
         closeModalBtn.addEventListener('click', closeModal);
         
         window.addEventListener('click', (e) => {
